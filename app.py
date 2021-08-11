@@ -38,7 +38,7 @@ else:
         response = AgGrid(df_template, editable=True, fit_columns_on_grid_load=True)
         st.form_submit_button()
         df = pd.DataFrame(response['data'])
-        df = df.set_index('考试时间', drop=False)
+        df = df.set_index('考试时间', drop=T)
         st.dataframe(df) 
 
 
