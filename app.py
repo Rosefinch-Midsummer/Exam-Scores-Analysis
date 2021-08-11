@@ -3,6 +3,7 @@ import streamlit as st
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder, JsCode
 import pandas as pd
 import plotly.express as px
+import base64
 
 num_exams = st.sidebar.slider('老高考全国卷总考试次数', 1, 20)
 
@@ -68,6 +69,15 @@ st.dataframe(df)  # Same as st.write(df0)
 with open('df.csv', 'w') as f:
     df.to_csv(f, header=f.tell()==0)
 
+# Download exam scores data
+# https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
+def filedownload(df):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
+    href = f'<a href="data:file/csv;base64,{b64}" download="exams.csv">Download CSV File</a>'
+    return href
+
+st.markdown(filedownload(df), unsafe_allow_html=True)
 
 
 
